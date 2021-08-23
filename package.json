@@ -1,0 +1,18 @@
+{
+  "name": "ckeditor-offline-app",
+  "version": "1.0.0",
+  "description": "A simple HTML editor using CKEditor and Electron.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec electron ."
+  },
+  "author": "Deepak Grover",
+  "license": "ISC",
+  "dependencies": {
+    "ckeditor4": "^4.16.2"
+  },
+  "devDependencies": {
+    "electron": "^13.2.1",
+    "nodemon": "^2.0.12"
+  }
+}

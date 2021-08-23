@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <script language="JavaScript" type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./node_modules/ckeditor4/ckeditor.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <h3>HTML Editor</h3>
+    <textarea id="desktop"></textarea>
+    <br />
+    <div class="App">
+        <h3>Load External HTML File</h3>
+        <input type="file" id="files" onclick="this.value=null;" hidden />
+
+        <!-- our custom upload button -->
+        <label for="files">Choose File</label>
+
+        <!-- name of file chosen -->
+        <span id="file-chosen">No file chosen</span>
+    </div>
+</body>
+<script>
+
+    $(document).ready(function () {
+        CKEDITOR.replace('desktop');
+        CKEDITOR.instances.desktop.setData('<h1>Hi, I am HTML editor.</h1>', function () {
+            this.checkDirty();  // true
+        });
+        function readTextFile(file, callback, encoding) {
+            var reader = new FileReader();
+            reader.addEventListener('load', function (e) {
+                callback(this.result);
+            });
+            if (encoding) reader.readAsText(file, encoding);
+            else reader.readAsText(file);
+        }
+
+        function fileChosen(input, output) {
+            if (input.files && input.files[0]) {
+                readTextFile(
+                    input.files[0],
+                    function (str) {
+                        output.setData(str);
+                        output.updateElement();
+                    }
+                );
+            }
+        }
+        $('#files').on('change', function () {
+            $('#file-chosen').text(this.files[0].name)
+            console.log('file', this.files);
+            if (this.files.length > 0) {
+                fileChosen(this, CKEDITOR.instances.desktop);
+            }
+
+
+        });
+    });
+
+</script>
+
+</html>
