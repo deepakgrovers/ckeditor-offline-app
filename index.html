@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>HTML Editor</title>
     <script language="JavaScript" type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
     <script language="JavaScript" type="text/javascript" src="./node_modules/ckeditor4/ckeditor.js"></script>
     <link rel="stylesheet" href="./index.css">
@@ -21,16 +21,29 @@
         <label for="files">Choose File</label>
 
         <!-- name of file chosen -->
-        <span id="file-chosen">No file chosen</span>
+        <span id="file-chosen">No file chosen</span> 
+    </div>
+    <hr>
+    <br />
+    <h2>Preview Editor HTML</h2>
+    <div id="display_div">
+        
     </div>
 </body>
 <script>
 
     $(document).ready(function () {
-        CKEDITOR.replace('desktop');
+        
+       let editor= CKEDITOR.replace('desktop');
         CKEDITOR.instances.desktop.setData('<h1>Hi, I am HTML editor.</h1>', function () {
             this.checkDirty();  // true
+            $('#display_div').html(editor.document.getBody().getHtml()) 
         });
+
+        editor.on('key', function (evt) {
+            $('#display_div').html(editor.document.getBody().getHtml()) 
+        });
+
         function readTextFile(file, callback, encoding) {
             var reader = new FileReader();
             reader.addEventListener('load', function (e) {
@@ -57,8 +70,6 @@
             if (this.files.length > 0) {
                 fileChosen(this, CKEDITOR.instances.desktop);
             }
-
-
         });
     });
 
